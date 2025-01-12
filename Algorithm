@@ -1,0 +1,33 @@
+Algorithm used in the project 
+
+OTX to ModSecurity Rules Generation Algorithm:
+Step-1: Set API Key and OTX URL:
+Define the OTX_API_KEY with the provided API key and set the OTX_URL to the AlienVault OTX API endpoint for exporting threat intelligence indicators (e.g., IPv4).
+
+Step-2: Prepare Headers for API Request:
+Create a headers dictionary that includes the API key with the key 'X-OTX-API-KEY'.
+
+Step-3: Send API Request:
+Send an HTTP GET request to the OTX_URL using the requests.get method, passing the prepared headers.
+
+Step-4: Check the Response Status:
+Print the response status code to check whether the request was successful (200 for success).
+
+Step-5: Handle Successful Response:
+If the status code is 200, extract the JSON data from the response and print it to verify its structure.
+
+Step-6: Verify Data Structure:
+Check if the returned data is a dictionary and contains the key 'results'. If 'results' exists, assign its value to the indicators list. 
+If the 'results' key is absent, assign the entire data to indicators.
+
+Step-7: Open File to Write Rules:
+Open the file /etc/nginx/modsec/otx_rules.conf in write mode for writing the ModSecurity rules.
+
+Step-8: Iterate Through Indicators:
+For each indicator in the indicators list: 
+IPv4 Indicator: If the indicator type is 'IPv4', extract the IP address and generate a ModSecurity rule to block it and write the rule to the file.
+Domain Indicator: If the indicator type is 'domain', extract the domain name and generate a ModSecurity rule for domainbased blocking and write the rule to the file.
+URL Indicator: If the indicator type is 'URL', extract the URL and generate a ModSecurity rule for URL-based blocking and write the rule to the file.
+
+Step-9: Handle Failed Response:
+If the status code is not 200, print an error message indicating the failure, along with the status code.
